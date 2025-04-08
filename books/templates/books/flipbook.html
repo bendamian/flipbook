@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ book.title }}</title>
+
+  <!-- ✅ Stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/flipbook.css' %}">
+
+  <!-- ✅ JS Libraries -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'turnjs/turn.min.js' %}"></script>
+</head>
+<body>
+
+  <!-- ✅ Title -->
+  <h1>{{ book.title }}</h1>
+
+  <!-- ✅ Controls -->
+  <div class="controls">
+    <button class="nav-button" onclick="$('#flipbook').turn('previous')">⟵ Previous</button>
+    <button class="nav-button" onclick="$('#flipbook').turn('next')">Next ⟶</button>
+    <button class="nav-button" onclick="$('#flipbook').turn('page', 1)">🔄 First Page</button>
+  </div>
+
+  <!-- ✅ Flipbook container -->
+  <div class="book-container">
+    <div id="flipbook">
+      {% for page in pages %}
+        <div class="page">
+          <img src="/media/{{ page.image }}" alt="Page {{ page.page_number }}">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ✅ Zoom control -->
+  <div class="zoom-control">
+    <label for="zoomRange">📏 Zoom:</label>
+    <input type="range" id="zoomRange" min="50" max="150" value="100">
+  </div>
+
+  <!-- ✅ Custom JS -->
+  <script src="{% static 'js/flipbook.js' %}"></script>
+</body>
+</html>
