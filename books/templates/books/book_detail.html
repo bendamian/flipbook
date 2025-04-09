@@ -1,0 +1,14 @@
+{% load static %}
+
+<h1>{{ book.title }}</h1>
+<p><strong>Author:</strong> {{ book.author_name }}</p>
+<p><strong>Category:</strong> {{ book.category }}</p>
+<p>{{ book.description }}</p>
+
+{% if book.thumbnail %}
+  <img src="{{ book.thumbnail.url }}" alt="{{ book.title }}" width="300">
+{% endif %}
+
+<a href="{% url 'book_flip' book.slug %}">
+  <button>📖 Read Now</button>
+</a>

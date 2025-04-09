@@ -1,4 +1,5 @@
 $(window).on("load", function () {
+  // Initialize the flipbook
   $("#flipbook").turn({
     width: 1200,
     height: 800,
@@ -8,10 +9,12 @@ $(window).on("load", function () {
     gradients: true
   });
 
+  // Zoom slider logic
   $("#zoomRange").on("input", function () {
     const scale = $(this).val() / 100;
     $("#flipbook").css({
-      transform: `scale(${scale})`
+      transform: `scale(${scale})`,
+      transformOrigin: "top center"
     });
   });
 });

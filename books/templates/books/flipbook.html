@@ -29,19 +29,26 @@
     <div id="flipbook">
       {% for page in pages %}
         <div class="page">
-          <img src="/media/{{ page.image }}" alt="Page {{ page.page_number }}">
-        </div>
+          <img src="{{ page.image.url }}" alt="Page {{ page.page_number }}"> 
+        </div>         
       {% endfor %}
     </div>
   </div>
 
   <!-- ✅ Zoom control -->
   <div class="zoom-control">
-    <label for="zoomRange">📏 Zoom:</label>
-    <input type="range" id="zoomRange" min="50" max="150" value="100">
+    <label for="zoomRange">📏 Zoom: <span id="zoomValue">100%</span></label>
+   <input type="range" id="zoomRange" min="50" max="150" value="100">
   </div>
 
   <!-- ✅ Custom JS -->
   <script src="{% static 'js/flipbook.js' %}"></script>
+
+  <script>
+  $(document).ready(function () {
+    console.log("Flipbook ready!");
+    console.log("Pages:", $("#flipbook .page").length);
+  });
+</script>
 </body>
 </html>

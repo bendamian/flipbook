@@ -1,0 +1,12 @@
+{% load static %}
+<h1>📚 All Books</h1>
+
+</div>
+{% for book in books %}
+  <div>
+    <h2><a href="{% url 'book_detail' book.slug %}">{{ book.title }}</a></h2>
+    {% if book.thumbnail %}
+      <img src="{{ book.thumbnail.url }}" alt="{{ book.title }}" width="150">
+    {% endif %}
+  </div>
+{% endfor %}
