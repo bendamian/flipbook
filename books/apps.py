@@ -8,3 +8,7 @@ class BooksConfig(AppConfig):
 
     def ready(self):
         import books.signals  
+
+
+   
+

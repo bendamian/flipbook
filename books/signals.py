@@ -1,10 +1,11 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+from django.core.files import File
 from .models import Book, Page
 from pdf2image import convert_from_path
 from pathlib import Path
-from django.core.files import File
+import os
 
 
 @receiver(post_save, sender=Book)
@@ -27,16 +28,21 @@ def generate_book_pages(sender, instance, created, **kwargs):
                     image=f'book_pages/book_{instance.id}/page_{i + 1}.jpg'
                 )
 
-            # Save first page as thumbnail after loop
+            # ✅ Save thumbnail from first image
             if images:
-                thumb_path = Path(settings.MEDIA_ROOT) / \
-                    f'thumbnails/book_{instance.id}_thumb.jpg'
+                thumb_dir = Path(settings.MEDIA_ROOT) / 'thumbnails'
+                thumb_dir.mkdir(parents=True, exist_ok=True)
+
+                thumb_path = thumb_dir / f'book_{instance.id}_thumb.jpg'
                 images[0].save(thumb_path, 'JPEG')
+
+                # Re-open file as Django File
                 with open(thumb_path, 'rb') as f:
+                    django_file = File(f)
                     instance.thumbnail.save(
-                        f'book_{instance.id}_thumb.jpg', File(f), save=True)
+                        f'book_{instance.id}_thumb.jpg', django_file, save=True)
+
+                print(f"✅ Thumbnail saved at {instance.thumbnail.url}")
 
         except Exception as e:
-            print(f"❌ Error processing PDF: {e}")
-
-
+            print(f"❌ Error generating book pages or thumbnail: {e}")
