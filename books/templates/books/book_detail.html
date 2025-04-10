@@ -1,14 +1,27 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<h1>{{ book.title }}</h1>
-<p><strong>Author:</strong> {{ book.author_name }}</p>
-<p><strong>Category:</strong> {{ book.category }}</p>
-<p>{{ book.description }}</p>
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-4">
+      {% if book.thumbnail %}
+        <img src="{{ book.thumbnail.url }}" class="img-fluid rounded shadow-sm" alt="{{ book.title }}">
+      {% else %}
+        <div class="text-muted">No thumbnail available.</div>
+      {% endif %}
+    </div>
 
-{% if book.thumbnail %}
-  <img src="{{ book.thumbnail.url }}" alt="{{ book.title }}" width="300">
-{% endif %}
+    <div class="col-md-8">
+      <h1 class="mb-3">{{ book.title }}</h1>
+      <p><strong>👤 Author:</strong> {{ book.author_name }}</p>
+      <p><strong>📚 Category:</strong> {{ book.category }}</p>
+      <p class="text-muted">{{ book.description }}</p>
 
-<a href="{% url 'book_flip' book.slug %}">
-  <button>📖 Read Now</button>
-</a>
+      <a href="{% url 'book_flip' book.slug %}" class="btn btn-primary btn-lg mt-3">
+        📖 Read Now
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

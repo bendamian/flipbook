@@ -1,12 +1,30 @@
+{% extends 'base.html' %}
 {% load static %}
-<h1>📚 All Books</h1>
 
-</div>
-{% for book in books %}
-  <div>
-    <h2><a href="{% url 'book_detail' book.slug %}">{{ book.title }}</a></h2>
-    {% if book.thumbnail %}
-      <img src="{{ book.thumbnail.url }}" alt="{{ book.title }}" width="150">
-    {% endif %}
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4 text-center">📚 All Books</h1>
+
+  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+    {% for book in books %}
+      <div class="col">
+        <div class="card h-100 border-0 shadow-sm">
+          {% if book.thumbnail %}
+            <img src="{{ book.thumbnail.url }}" class="card-img-top img-fluid" alt="{{ book.title }}" style="height: 160px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body p-2 d-flex flex-column">
+            <h6 class="card-title mb-1 text-truncate">{{ book.title }}</h6>
+            {% if book.author_name %}
+              <small class="text-muted mb-2 d-block">👤 {{ book.author_name }}</small>
+            {% endif %}
+            <a href="{% url 'book_detail' book.slug %}" class="btn btn-sm btn-outline-primary mt-auto">Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-{% endfor %}
+</div>
+{% endblock %}
+
+
+

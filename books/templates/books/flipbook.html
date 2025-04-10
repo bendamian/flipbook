@@ -1,54 +1,47 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ book.title }}</title>
 
-  <!-- ✅ Stylesheet -->
+{% block head %}
   <link rel="stylesheet" href="{% static 'css/flipbook.css' %}">
-
-  <!-- ✅ JS Libraries -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'turnjs/turn.min.js' %}"></script>
-</head>
-<body>
+{% endblock %}
 
-  <!-- ✅ Title -->
-  <h1>{{ book.title }}</h1>
+{% block content %}
+  <div class="container text-center my-4">
+    <h1 class="mb-4">{{ book.title }}</h1>
 
-  <!-- ✅ Controls -->
-  <div class="controls">
-    <button class="nav-button" onclick="$('#flipbook').turn('previous')">⟵ Previous</button>
-    <button class="nav-button" onclick="$('#flipbook').turn('next')">Next ⟶</button>
-    <button class="nav-button" onclick="$('#flipbook').turn('page', 1)">🔄 First Page</button>
-  </div>
+    <!-- Controls -->
+    <div class="mb-4">
+      <button class="btn btn-primary me-2" onclick="$('#flipbook').turn('previous')">⟵ Previous</button>
+      <button class="btn btn-primary me-2" onclick="$('#flipbook').turn('next')">Next ⟶</button>
+      <button class="btn btn-secondary" onclick="$('#flipbook').turn('page', 1)">🔄 First Page</button>
+    </div>
 
-  <!-- ✅ Flipbook container -->
-  <div class="book-container">
-    <div id="flipbook">
-      {% for page in pages %}
-        <div class="page">
-          <img src="{{ page.image.url }}" alt="Page {{ page.page_number }}"> 
-        </div>         
-      {% endfor %}
+    <!-- Flipbook container -->
+    <div class="d-flex justify-content-center mb-4">
+      <div id="flipbook">
+        {% for page in pages %}
+          <div class="page">
+            <img src="{{ page.image.url }}" alt="Page {{ page.page_number }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Zoom control -->
+    <div class="zoom-control mb-4">
+      <label for="zoomRange" class="form-label">📏 Zoom: <span id="zoomValue">100%</span></label>
+      <input type="range" id="zoomRange" min="50" max="150" value="100" class="form-range w-50 mx-auto">
     </div>
   </div>
+{% endblock %}
 
-  <!-- ✅ Zoom control -->
-  <div class="zoom-control">
-    <label for="zoomRange">📏 Zoom: <span id="zoomValue">100%</span></label>
-   <input type="range" id="zoomRange" min="50" max="150" value="100">
-  </div>
-
-  <!-- ✅ Custom JS -->
+{% block extra_js %}
   <script src="{% static 'js/flipbook.js' %}"></script>
-
   <script>
-  $(document).ready(function () {
-    console.log("Flipbook ready!");
-    console.log("Pages:", $("#flipbook .page").length);
-  });
-</script>
-</body>
-</html>
+    $(document).ready(function () {
+      console.log("Flipbook ready!");
+      console.log("Pages:", $("#flipbook .page").length);
+    });
+  </script>
+{% endblock %}
