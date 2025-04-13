@@ -47,7 +47,7 @@ h1 {
   width: 600px;
   height: 800px;
   background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .page img {
@@ -63,3 +63,5 @@ h1 {
 #zoomRange {
   width: 300px;
 }
+
+

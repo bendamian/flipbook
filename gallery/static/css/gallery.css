@@ -1,0 +1,17 @@
+.album-photo {
+  height: 500px;
+  object-fit: contain;
+  background-color: #f8f9fa;
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+@media (max-width: 768px) {
+  .album-photo {
+    height: 300px;
+  }
+}
+
+

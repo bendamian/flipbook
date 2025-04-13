@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+<div class="container py-5">
+  <h2 class="text-center mb-4">{{ album.title }}</h2>
+
+    <!--carousel start-->
+    <div id="carouselAlbum" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for photo in album.photos.all %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <img
+            src="{{ photo.image.url }}"
+            class="d-block w-100 album-photo"
+            alt="Photo {{ forloop.counter }}"
+          />
+        </div>
+        {% endfor %}
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselAlbum"
+        data-bs-slide="prev"
+       
+      >
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselAlbum"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+
+    <!--carousel end-->
+  
+</div>
+{% endblock %}

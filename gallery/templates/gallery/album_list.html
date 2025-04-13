@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container py-5">
+  <h2 class="text-center mb-4">📸 Photo Albums</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for album in album_page %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if album.photos.first %}
+        <img
+          src="{{ album.photos.first.image.url }}"
+          class="card-img-top"
+          alt="{{ album.title }}"
+        />
+        {% endif %}
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ album.title }}</h5>
+          <a
+            href="{% url 'album_detail' album.id %}"
+            class="btn btn-outline-primary"
+            >View Album</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<br /><br />
+
+<!--  
+{{ album_page }}<br />
+[testing pagination]
+Has Previous: {{ album_page.has_previous }}<br/>
+Has Next: {{ album_page.has_next }}<br/>
+Current Page: {{ album_page.number }}<br>
+Number of Pages: {{ album_page.paginator.num_pages }}
+<hr/><br/><br/> -->
+
+<!-- Pagination Controls -->
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if album_page.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1">&laquo; First</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ album_page.previous_page_number }}">Previous</a>
+      </li>
+    {% endif %}
+
+    <li class="page-item disabled">
+      <a class="page-link" href="#">Page {{ album_page.number }} of {{ album_page.paginator.num_pages }}</a>
+    </li>
+
+    {% if album_page.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ album_page.next_page_number }}">Next</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ album_page.paginator.num_pages }}">Last &raquo;</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+<!--Pagination end-->
+{% endblock %}

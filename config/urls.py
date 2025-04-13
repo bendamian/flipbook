@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 👈 This line includes your book viewer URLs
     path('books/', include('books.urls')),
+    path('gallery/', include('gallery.urls')),
 ]
 
 # Serve media files during development
