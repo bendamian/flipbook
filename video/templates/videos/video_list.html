@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4">
+  <h2 class="mb-4 text-center">🎥 All Videos</h2>
+
+  <form method="get" class="mb-4 text-center">
+    <label for="categorySelect" class="me-2">Filter by Category:</label>
+    <select id="categorySelect" name="category" onchange="this.form.submit()" class="form-select d-inline-block w-auto">
+      <option value="">All</option>
+      {% for category in categories %}
+        <option value="{{ category.slug }}" {% if selected_category and selected_category.slug == category.slug %}selected{% endif %}>{{ category.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for video in videos %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if video.thumbnail %}
+            <img src="{{ video.thumbnail.url }}" class="card-img-top" alt="{{ video.title }}" style="height: 180px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h6 class="card-title text-truncate">{{ video.title }}</h6>
+            <a href="{% url 'video_detail' video.slug %}" class="btn btn-sm btn-outline-primary mt-auto">Watch</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if videos.has_other_pages %}
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if videos.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">&laquo; First</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ videos.previous_page_number }}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">Previous</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ videos.number }} of {{ videos.paginator.num_pages }}</span></li>
+        {% if videos.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ videos.next_page_number }}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">Next</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ videos.paginator.num_pages }}{% if selected_category %}&category={{ selected_category.slug }}{% endif %}">Last &raquo;</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

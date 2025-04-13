@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'plyr/plyr.css' %}">
+<style>
+  .video-wrapper {
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  #player {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+  }
+
+  .video-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .video-description {
+    white-space: pre-line;
+    font-size: 1rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+
+      <!-- Title and Meta -->
+      <h3 class="mb-2">{{ video.title }}</h3>
+      <div class="video-meta mb-3">
+        {{ video.uploaded_at|date:"F j, Y" }}
+        {% if video.category %} • Category: {{ video.category.name }}{% endif %}
+      </div>
+
+      <!-- Video Player -->
+      <div class="video-wrapper">
+        <video
+          id="player"
+          playsinline
+          controls
+          data-poster="{% if video.thumbnail %}{{ video.thumbnail.url }}{% else %}{% static 'videos/default-thumbnail.jpg' %}{% endif %}">
+          <source src="{{ video.video_file.url }}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- Description -->
+      {% if video.description %}
+        <div class="video-description border-top pt-3">
+          {{ video.description }}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'plyr/plyr.js' %}"></script>
+<script>
+  const player = new Plyr('#player', {
+    controls: [
+      'play', 'progress', 'current-time', 'mute', 'volume',
+      'settings', 'fullscreen'
+    ],
+    settings: ['speed'],
+    speed: { selected: 1, options: [0.5, 1, 1.25, 1.5, 2] }
+  });
+</script>
+{% endblock %}

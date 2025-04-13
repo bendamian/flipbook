@@ -10,6 +10,7 @@ urlpatterns = [
     # 👈 This line includes your book viewer URLs
     path('books/', include('books.urls')),
     path('gallery/', include('gallery.urls')),
+    path('video/', include('video.urls')),
 ]
 
 # Serve media files during development
